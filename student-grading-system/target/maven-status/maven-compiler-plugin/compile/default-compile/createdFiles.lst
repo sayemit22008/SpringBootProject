@@ -1,0 +1,6 @@
+com\studentgrading\entity\Student.class
+com\studentgrading\service\StudentService.class
+com\studentgrading\StudentGradingSystemApplication.class
+com\studentgrading\repository\StudentRepository.class
+com\studentgrading\controller\StudentController.class
+com\studentgrading\controller\WebController.class

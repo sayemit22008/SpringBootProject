@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grading System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .status-excellent { background-color: #d4edda; color: #155724; }
+        .status-good { background-color: #d1ecf1; color: #0c5460; }
+        .status-try-harder { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center mb-4">Student Grading System</h1>
+                
+                <div class="mb-3">
+                    <a href="/add" class="btn btn-primary">Add New Student</a>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Student Records</h3>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${students.isEmpty()}" class="alert alert-info">
+                            No students found. <a href="/add">Add a student</a> to get started.
+                        </div>
+                        
+                        <table th:if="${!students.isEmpty()}" class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Test 1</th>
+                                    <th>Test 2</th>
+                                    <th>Test 3</th>
+                                    <th>Average</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="student : ${students}">
+                                    <td th:text="${student.id}"></td>
+                                    <td th:text="${student.name}"></td>
+                                    <td th:text="${student.classTest1}"></td>
+                                    <td th:text="${student.classTest2}"></td>
+                                    <td th:text="${student.classTest3}"></td>
+                                    <td th:text="${#numbers.formatDecimal(student.average, 1, 2)}"></td>
+                                    <td>
+                                        <span th:text="${student.status}"
+                                              th:class="${'badge ' + 
+                                                       (student.status == 'Excellent' ? 'bg-success' : 
+                                                       (student.status == 'Good' ? 'bg-info' : 'bg-danger'))}">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/edit/{id}(id=${student.id})}" class="btn btn-sm btn-warning me-1">Edit</a>
+                                        <a th:href="@{/delete/{id}(id=${student.id})}" class="btn btn-sm btn-danger"
+                                           onclick="return confirm('Are you sure you want to delete this student?')">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
